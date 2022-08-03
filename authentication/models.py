@@ -7,7 +7,10 @@ from django.db import models
 
 from shared.django import TimeStampMixin
 
-# Create your models here.
+DEFAULT_ROLES = {
+    "admin": 1,
+    "user": 2
+}
 
 
 class CustomUserManager(UserManager):
@@ -25,15 +28,24 @@ class CustomUserManager(UserManager):
         return user
 
     def create_superuser(self, email, username=None, password=None, **kwargs):
-        extra_fields: dict = {"is_superuser": True, "is_active": True, "is_staff": True}
+        sup_us_payload: dict = kwargs | {
+            "is_superuser": True,
+            "is_active": True,
+            "is_staff": True,
+            "role_id": DEFAULT_ROLES["admin"]
+        }
 
-        return self.create_user(email, username, password, **extra_fields)
+        return self.create_user(email, username, password, **sup_us_payload)
 
 
 class Role(TimeStampMixin):
     """User's role"""
 
     name = models.CharField(max_length=50)
+
+    class Meta:
+        db_table = "roles"
+        verbose_name_plural = "Roles"
 
 
 class User(AbstractBaseUser, PermissionsMixin, TimeStampMixin):
@@ -48,7 +60,13 @@ class User(AbstractBaseUser, PermissionsMixin, TimeStampMixin):
     is_active = models.BooleanField(default=True)
     is_superuser = models.BooleanField(default=False)
 
-    # role = models.ForeignKey(null=True, default=)
+    role = models.ForeignKey(
+        Role,
+        null=True,
+        default=DEFAULT_ROLES["user"],
+        on_delete=models.SET_NULL,
+        related_name="users",
+    )
 
     objects = CustomUserManager()
 
