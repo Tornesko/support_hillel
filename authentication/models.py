@@ -7,10 +7,7 @@ from django.db import models
 
 from shared.django import TimeStampMixin
 
-DEFAULT_ROLES = {
-    "admin": 1,
-    "user": 2
-}
+DEFAULT_ROLES = {"admin": 1, "user": 2}
 
 
 class CustomUserManager(UserManager):
@@ -32,7 +29,7 @@ class CustomUserManager(UserManager):
             "is_superuser": True,
             "is_active": True,
             "is_staff": True,
-            "role_id": DEFAULT_ROLES["admin"]
+            "role_id": DEFAULT_ROLES["admin"],
         }
 
         return self.create_user(email, username, password, **sup_us_payload)
