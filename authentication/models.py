@@ -4,6 +4,7 @@ from django.contrib.auth.models import (  # isort: skip
     UserManager,  # isort: skip
 )  # isort: skip
 from django.db import models
+
 from shared.django import TimeStampMixin
 
 # Create your models here.
@@ -30,7 +31,8 @@ class CustomUserManager(UserManager):
 
 
 class Role(TimeStampMixin):
-    """ User's role"""
+    """User's role"""
+
     name = models.CharField(max_length=50)
 
 

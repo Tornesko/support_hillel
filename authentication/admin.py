@@ -1,6 +1,6 @@
 from django.contrib import admin  # noqa:F401
 
-from .models import User, Role
+from .models import Role, User
 
 
 @admin.register(User)
