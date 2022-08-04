@@ -40,7 +40,7 @@ DJANGO_APPS = [
 ]
 
 THIRD_PARTY_APPS = [
-    "django-extensions",
+    "django_extensions",
 ]
 LOCAL_APPS = [
     "core",
