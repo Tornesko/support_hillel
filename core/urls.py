@@ -1,6 +1,5 @@
-from core.api import get_all_tickets
 from django.urls import path
 
-urlpatterns = [
-    path("", get_all_tickets)
-]
+from core.api import get_all_tickets
+
+urlpatterns = [path("", get_all_tickets)]

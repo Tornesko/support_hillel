@@ -23,7 +23,7 @@ def user_as_dict(user: User):
         "first_name": user.first_name,
         "last_name": user.last_name,
         "age": user.age,
-        "phone": user.phone
+        "phone": user.phone,
     }
 
 
@@ -33,7 +33,7 @@ def ticket_as_dict(ticket: Ticket):
         "operator": user_as_dict(ticket.operator),
         "resolved": ticket.resolved,
         "created_at": ticket.created_at,
-        "updated_at": ticket.updated_at
+        "updated_at": ticket.updated_at,
     }
 
 
