@@ -12,29 +12,7 @@ User = get_user_model()
 class RoleSerializer(serializers.ModelSerializer):
     class Meta:
         model = Role
-        fields = "__all__"
-
-
-def user_as_dict(user: User):
-    return {
-        "id": user.id,  # type: ignore
-        "email": user.email,
-        "username": user.username,
-        "first_name": user.first_name,
-        "last_name": user.last_name,
-        "age": user.age,
-        "phone": user.phone,
-    }
-
-
-def ticket_as_dict(ticket: Ticket):
-    return {
-        "id": ticket.id,  # type: ignore
-        "operator": user_as_dict(ticket.operator),
-        "resolved": ticket.resolved,
-        "created_at": ticket.created_at,
-        "updated_at": ticket.updated_at,
-    }
+        fields = ['name']
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -42,7 +20,7 @@ class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = "__all__"
+        fields = ['role', 'email', 'username', 'first_name', 'last_name', 'phone']
 
 
 class TicketSerializer(serializers.ModelSerializer):
@@ -51,7 +29,7 @@ class TicketSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Ticket
-        fields = "__all__"
+        fields = ['operator', 'client', 'theme', 'description', 'resolved']
 
 
 @api_view(["GET"])
