@@ -82,4 +82,5 @@ ___
 ## Useful links
 
 - [django docs](https://docs.djangoproject.com/en/4.1/)
+- [DRF docs](https://www.django-rest-framework.org/)
 
