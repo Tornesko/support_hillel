@@ -12,7 +12,7 @@ User = get_user_model()
 class RoleSerializer(serializers.ModelSerializer):
     class Meta:
         model = Role
-        fields = ['name']
+        fields = ["name"]
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -20,7 +20,7 @@ class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ['role', 'email', 'username', 'first_name', 'last_name', 'phone']
+        fields = ["role", "email", "username", "first_name", "last_name", "phone"]
 
 
 class TicketSerializer(serializers.ModelSerializer):
@@ -29,7 +29,7 @@ class TicketSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Ticket
-        fields = ['operator', 'client', 'theme', 'description', 'resolved']
+        fields = ["operator", "client", "theme", "description", "resolved"]
 
 
 @api_view(["GET"])
