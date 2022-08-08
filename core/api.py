@@ -23,17 +23,30 @@ class UserSerializer(serializers.ModelSerializer):
         fields = ["role", "email", "username", "first_name", "last_name", "phone"]
 
 
+class TicketLightSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Ticket
+        fields = ["operator", "client", "theme", "resolved"]
+
+
 class TicketSerializer(serializers.ModelSerializer):
     operator = UserSerializer()
     client = UserSerializer()
 
     class Meta:
         model = Ticket
-        fields = ["operator", "client", "theme", "description", "resolved"]
+        fields = "__all__"
 
 
 @api_view(["GET"])
 def get_all_tickets(request):
     tickets = Ticket.objects.all()
-    data = TicketSerializer(tickets, many=True).data
+    data = TicketLightSerializer(tickets, many=True).data
     return Response(data)
+
+
+@api_view(["GET"])
+def get_ticket(request, id_):
+    tickets = Ticket.objects.get(id=id_)
+    data = TicketSerializer(tickets).data
+    return Response(data=data)
