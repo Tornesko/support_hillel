@@ -1,52 +1,71 @@
-from django.contrib.auth import get_user_model
-from rest_framework import serializers
-from rest_framework.decorators import api_view
+from rest_framework import status
 from rest_framework.response import Response
+from rest_framework.views import APIView
 
-from authentication.models import Role
 from core.models import Ticket
-
-User = get_user_model()
-
-
-class RoleSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Role
-        fields = ["name"]
+from core.serializers import TicketLightSerializer, TicketSerializer
 
 
-class UserSerializer(serializers.ModelSerializer):
-    role = RoleSerializer()
+# @api_view(["GET", "POST"])
+# def get_post_tickets(request):
+#     if request.method == "GET":
+#         tickets = Ticket.objects.all()
+#         serializer = TicketLightSerializer(tickets, many=True).data
+#         return Response(data=serializer)
+#
+#     serializer = TicketSerializer(data=request.data)
+#     serializer.is_valid(raise_exception=True)
+#
+#     instance = serializer.create(serializer.validated_data)
+#     results = TicketSerializer(instance).data
+#
+#     return Response(data=results, status=status.HTTP_201_CREATED)
 
-    class Meta:
-        model = User
-        fields = ["role", "email", "username", "first_name", "last_name", "phone"]
+class ApiTicketsList(APIView):
+    """List all tickets, or create a new ticket."""
+
+    def get(self, request, format=None):
+        tickets = Ticket.objects.all()
+        serializer = TicketLightSerializer(tickets, many=True)
+        return Response(serializer.data)
+
+    def post(self, request, format=None):
+        serializer = TicketSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-class TicketLightSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Ticket
-        fields = ["operator", "client", "theme", "resolved"]
+# @api_view(["GET", "PUT", "DELETE"])
+# def get_ticket(request, id_):
+#     if request.method == "GET":
+#         tickets = Ticket.objects.get(id=id_)
+#         serializer = TicketSerializer(tickets).data
+#         return Response(data=serializer)
+#     if request.method == "DELETE":
+#         ticket = Ticket.objects.get(id=id_)
+#         ticket.delete()
+#         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
-class TicketSerializer(serializers.ModelSerializer):
-    operator = UserSerializer()
-    client = UserSerializer()
+class ApiTicket(APIView):
 
-    class Meta:
-        model = Ticket
-        fields = "__all__"
+    def get(self, request, id_):
+        ticket = Ticket.objects.get(id=id_)
+        serializer = TicketSerializer(ticket).data
+        return Response(data=serializer)
 
+    def put(self, request, id_):
+        ticket = Ticket.objects.get(id=id_)
+        serializer = TicketSerializer(ticket).data
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
 
-@api_view(["GET"])
-def get_all_tickets(request):
-    tickets = Ticket.objects.all()
-    data = TicketLightSerializer(tickets, many=True).data
-    return Response(data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-
-@api_view(["GET"])
-def get_ticket(request, id_):
-    tickets = Ticket.objects.get(id=id_)
-    data = TicketSerializer(tickets).data
-    return Response(data=data)
+    def delete(self, request, id_):
+        ticket = Ticket.objects.get(id=id_)
+        ticket.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
