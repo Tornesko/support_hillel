@@ -21,6 +21,7 @@ from core.serializers import TicketLightSerializer, TicketSerializer
 #
 #     return Response(data=results, status=status.HTTP_201_CREATED)
 
+
 class ApiTicketsList(APIView):
     """List all tickets, or create a new ticket."""
 
@@ -50,7 +51,6 @@ class ApiTicketsList(APIView):
 
 
 class ApiTicket(APIView):
-
     def get(self, request, id_):
         ticket = Ticket.objects.get(id=id_)
         serializer = TicketSerializer(ticket).data
