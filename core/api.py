@@ -5,7 +5,6 @@ from rest_framework.views import APIView
 from core.models import Ticket
 from core.serializers import TicketLightSerializer, TicketSerializer
 
-
 # @api_view(["GET", "POST"])
 # def get_post_tickets(request):
 #     if request.method == "GET":
