@@ -10,7 +10,7 @@ User = get_user_model()
 class RoleSerializer(serializers.ModelSerializer):
     class Meta:
         model = Role
-        fields = ["name"]
+        fields = ('name', )
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -18,13 +18,13 @@ class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ["role", "email", "username", "first_name", "last_name", "phone"]
+        fields = ('role', 'email', 'username', 'first_name', 'last_name', 'phone')
 
 
 class TicketLightSerializer(serializers.ModelSerializer):
     class Meta:
         model = Ticket
-        fields = ["operator", "client", "theme", "resolved"]
+        fields = ('operator', 'client', 'theme', 'resolved')
 
 
 class TicketSerializer(serializers.ModelSerializer):
