@@ -10,7 +10,7 @@ User = get_user_model()
 class RoleSerializer(serializers.ModelSerializer):
     class Meta:
         model = Role
-        fields = ('name', )
+        fields = ("name",)
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -18,19 +18,36 @@ class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ('role', 'email', 'username', 'first_name', 'last_name', 'phone')
+        fields = ("role", "email", "username", "first_name", "last_name", "phone")
 
 
-class TicketLightSerializer(serializers.ModelSerializer):
+class UserLightSerializer(serializers.ModelSerializer):
+    role = RoleSerializer()
+
     class Meta:
-        model = Ticket
-        fields = ('operator', 'client', 'theme', 'resolved')
+        model = User
+        fields = ("role", "username")
+
+
+# class TicketLightSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = Ticket
+#         fields = ('operator', 'client', 'theme', 'resolved')
 
 
 class TicketSerializer(serializers.ModelSerializer):
-    operator = UserSerializer()
-    client = UserSerializer()
+    client = serializers.HiddenField(default=serializers.CurrentUserDefault())
+    operator = UserLightSerializer()
 
     class Meta:
         model = Ticket
         fields = "__all__"
+
+
+# class CreateTicketSerializer(serializers.ModelSerializer):
+#     client = serializers.HiddenField(default=serializers.CurrentUserDefault())
+#     operator = UserSerializer()
+#
+#     class Meta:
+#         model = Ticket
+#         fields = "__all__"
