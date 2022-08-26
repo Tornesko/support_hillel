@@ -1,8 +1,8 @@
-from django.contrib.auth.models import (  # isort: skip
-    AbstractBaseUser,  # isort: skip
-    PermissionsMixin,  # isort: skip
-    UserManager,  # isort: skip
-)  # isort: skip
+from django.contrib.auth.models import (
+    AbstractBaseUser,
+    PermissionsMixin,
+    UserManager,
+)
 from django.db import models
 
 from shared.django import TimeStampMixin
