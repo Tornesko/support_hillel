@@ -1,21 +1,15 @@
 repos:
--   repo: local
+  - repo: local
     hooks:
-    -   id: black
+      - id: black
         name: black
         entry: black --check ./
-        types: [python]
+        types: [ python ]
         language: system
         pass_filenames: false
-    -   id: isort
-        name: isort
-        entry: isort --check-only ./
-        types: [python]
-        language: system
-        pass_filenames: false
-    -   id: flake8
+      - id: flake8
         name: flake8
         entry: flake8 ./
-        types: [python]
+        types: [ python ]
         language: system
         pass_filenames: false
