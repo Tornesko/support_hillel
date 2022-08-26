@@ -18,4 +18,4 @@ jobs:
       - name: Run linter
         run: flake8 ./
       - name: Run formatters
-        run: black --check ./ && isort --check-only ./
+        run: black --check ./
