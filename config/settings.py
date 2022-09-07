@@ -47,7 +47,7 @@ LOCAL_APPS = [
     "authentication",
     "exchangerates",
     "rest_framework.authtoken",
-    "djoser"
+    "djoser",
 ]
 
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS

@@ -8,11 +8,13 @@ from core.serializers import TicketSerializer
 
 class ApiTicketsList(generics.ListCreateAPIView):
     """List all tickets, or create a new ticket."""
+
     def get_queryset(self):
         user = self.request.user
         if user.role.id == 1:
             return Ticket.objects.all()
         return Ticket.objects.filter(client=user)
+
     serializer_class = TicketSerializer
     permission_classes = (IsAuthenticated,)
 
