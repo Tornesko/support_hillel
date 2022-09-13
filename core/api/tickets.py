@@ -4,7 +4,7 @@ from rest_framework.response import Response
 
 from core.models import Ticket
 from core.permissions import ClientOnly, OperatorOnly
-from core.serializers import TicketSerializer, TicketAssignSerializer
+from core.serializers import TicketAssignSerializer, TicketSerializer
 from core.services import TicketsCRUD
 
 
@@ -62,4 +62,3 @@ class TicketResolveAPI(UpdateAPIView):
         serializer = self.get_serializer(instance)
 
         return Response(serializer.data)
-se
