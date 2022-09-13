@@ -61,10 +61,12 @@ class TicketSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
-# class CreateTicketSerializer(serializers.ModelSerializer):
-#     client = serializers.HiddenField(default=serializers.CurrentUserDefault())
-#     operator = UserSerializer()
-#
-#     class Meta:
-#         model = Ticket
-#         fields = "__all__"
+class TicketAssignSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Ticket
+        fields = ["operator"]
+
+    def validate(self, attrs: dict) -> dict:
+        # NOTE: Add current user to the `attrs` object
+        attrs["operator"] = self.context["request"].user
+        return attrs
