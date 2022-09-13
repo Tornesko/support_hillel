@@ -1,8 +1,8 @@
 from rest_framework import generics
-from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
 from core.models import Ticket
+from core.permissions import ClientOnly
 from core.serializers import TicketSerializer
 
 
@@ -16,11 +16,11 @@ class ApiTicketsList(generics.ListCreateAPIView):
         return Ticket.objects.filter(client=user)
 
     serializer_class = TicketSerializer
-    permission_classes = (IsAuthenticated,)
+    permission_classes = (ClientOnly,)
 
 
 class ApiTicket(generics.RetrieveUpdateDestroyAPIView):
-    permission_classes = (IsAuthenticated,)
+    permission_classes = (ClientOnly,)
     serializer_class = TicketSerializer
 
     def retrieve(self, request, *args, **kwargs):

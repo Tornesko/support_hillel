@@ -1,4 +1,7 @@
+from itertools import chain
+
 from django.contrib.auth import get_user_model
+from django.core.exceptions import ValidationError
 from rest_framework import serializers
 
 from authentication.models import Role
@@ -38,6 +41,20 @@ class UserLightSerializer(serializers.ModelSerializer):
 class TicketSerializer(serializers.ModelSerializer):
     client = serializers.HiddenField(default=serializers.CurrentUserDefault())
     operator = UserLightSerializer()
+
+    def validate(self, attrs: dict) -> dict:
+        theme = attrs.get("theme")
+        if not theme:
+            return attrs
+
+        data = Ticket.objects.values_list("theme")
+
+        for element in chain.from_iterable(data):
+            if element == theme:
+                raise ValidationError("This ticket is already in the database")
+
+        attrs["client"] = self.context["request"].user
+        return attrs
 
     class Meta:
         model = Ticket
