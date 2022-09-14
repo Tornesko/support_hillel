@@ -1,6 +1,7 @@
 from rest_framework.generics import CreateAPIView, ListAPIView
 
 from core.models import Comment
+from core.permissions import IsAuthenticatedAndOwner
 from core.serializers import CommentSerializer
 
 
@@ -25,6 +26,9 @@ class CommentsCreateAPI(CreateAPIView):
     serializer_class = CommentSerializer
     lookup_field = "ticket_id"
     lookup_url_kwarg = "ticket_id"
+    permission_classes = {
+        "post": [IsAuthenticatedAndOwner],
+    }
 
     def get_queryset(self):
         ticket_id: int = self.kwargs[self.lookup_field]

@@ -19,3 +19,13 @@ class OperatorOnly(BasePermission):
             return True
 
         return False
+
+
+class IsAuthenticatedAndOwner(BasePermission):
+    message = "You must be admin or authenticated."
+
+    def has_permission(self, request, view):
+        return request.user and request.user.is_authenticated
+
+    def has_object_permission(self, request, view, obj):
+        return obj.user == request.user
