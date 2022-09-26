@@ -1,7 +1,10 @@
+from django.core.exceptions import SuspiciousOperation
+from django.db.models import Q
 from rest_framework import generics
 from rest_framework.generics import UpdateAPIView
 from rest_framework.response import Response
 
+from authentication.models import DEFAULT_ROLES
 from core.models import Ticket
 from core.permissions import ClientOnly, OperatorOnly
 from core.serializers import TicketAssignSerializer, TicketSerializer
@@ -30,6 +33,30 @@ class ApiTicket(generics.RetrieveUpdateDestroyAPIView):
         serializer = TicketSerializer(ticket)
 
         return Response(serializer.data)
+
+    def get_queryset(self):
+        user = self.request.user
+        empty = self.request.GET.get("empty", None)
+
+        if user.role.id == DEFAULT_ROLES["admin"]:
+            if empty == "true":
+                return Ticket.objects.filter(operator=None)
+            if empty == "false":
+                return Ticket.objects.filter(operator=user)
+            if empty is not None:
+                raise SuspiciousOperation(
+                    "Not allowed value. Only 'true' or 'false', only lowercase."
+                )
+            return Ticket.objects.filter(Q(operator=None) | Q(operator=user))
+
+        if user.role.id == 1:
+            return Ticket.objects.filter(operator=None) | Ticket.objects.filter(
+                operator=user
+            )
+        if empty is not None:
+            raise SuspiciousOperation("Not allowed. Operators only.")
+
+        return Ticket.objects.filter(client=user)
 
 
 class TicketAssignAPI(UpdateAPIView):
