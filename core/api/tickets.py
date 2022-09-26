@@ -85,7 +85,7 @@ class TicketResolveAPI(UpdateAPIView):
         instance = self.get_object()
         instance = TicketsCRUD.change_resolved_status(instance)
 
-        # serializer = self.serializer_class(instance)
         serializer = self.get_serializer(instance)
+        # serializer = self.serializer_class(instance)
 
         return Response(serializer.data)
