@@ -50,6 +50,6 @@ class CommentCreatePermission(BasePermission):
 
         if ticket.operator is None:
             return False
-        if ticket.status == "resolved":
+        if ticket.resolved is True:
             return False
         return True
