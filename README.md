@@ -7,8 +7,8 @@ ___
 
 # Run application with docker
 ```bash
-docker build -t support_django .
-docker run -p 8000:80 -v $PWD:/app/ --rm -it support_django
+docker build -t support-django .
+docker run -p 8000:80 -v $PWD:/app/ --rm -it support-django
 ```
 ___
 
