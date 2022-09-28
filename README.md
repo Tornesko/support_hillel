@@ -5,6 +5,13 @@ and send these tickets to the managers of the support service, and then a chat s
 solve his problem.
 ___
 
+# Run application with docker
+```bash
+docker build -t support_django .
+docker run -p 8000:80 -v $PWD:/app/ --rm -it support_django
+```
+___
+
 ## Setup the environment
 
 ```
