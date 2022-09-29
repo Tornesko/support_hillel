@@ -6,10 +6,35 @@ solve his problem.
 ___
 
 # Run application with docker
+
 ```bash
 docker build -t support_django .
 docker run -p 8000:80 -v $PWD:/app/ --rm -it support_django
 ```
+
+___
+
+# With docker-compose
+
+```bash
+docker-compose up -d
+```
+
+___
+
+## dump database
+
+```bash
+
+docker exec -t support_postgres pg_dump -c -U support > dump.sql
+```
+
+## restore database
+
+```bash
+cat dump.sql | docker exec -i support_postgres psql -U support
+``` 
+
 ___
 
 ## Setup the environment
